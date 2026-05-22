@@ -17,6 +17,7 @@ public class WorkoutExercise {
 
     private Integer sets;
     private Integer reps;
+    private Double weightKg;
     private Integer restSeconds;
     private Integer orderIndex;
     private String notes;

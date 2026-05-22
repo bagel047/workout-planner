@@ -1,0 +1,11 @@
+package mk.ukim.finki.workoutplanner.repository;
+
+import mk.ukim.finki.workoutplanner.model.entity.WorkoutExercise;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface WorkoutExerciseRepository extends JpaRepository<WorkoutExercise, Long> {
+    List<WorkoutExercise> findByWorkoutDayIdOrderByOrderIndexAsc(Long workoutDayId);
+    void deleteByWorkoutDayId(Long workoutDayId);
+}

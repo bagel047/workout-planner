@@ -39,8 +39,10 @@ public class WorkoutPlan {
     @Column(nullable = false)
     private ContentSource source;
 
+    @Builder.Default
     private Boolean isAiGenerated = false;
 
+    @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

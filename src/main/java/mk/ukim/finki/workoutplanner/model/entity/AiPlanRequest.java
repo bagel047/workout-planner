@@ -3,6 +3,7 @@ package mk.ukim.finki.workoutplanner.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import mk.ukim.finki.workoutplanner.model.enums.EquipmentType;
+import mk.ukim.finki.workoutplanner.model.enums.FitnessGoal;
 import mk.ukim.finki.workoutplanner.model.enums.Level;
 
 import java.time.LocalDateTime;
@@ -19,14 +20,17 @@ public class AiPlanRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String goal;
+    @Enumerated(EnumType.STRING)
+    private FitnessGoal goal;
+
     @Enumerated(EnumType.STRING)
     private Level experienceLevel;
-    private Integer daysPerWeek;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "TEXT")
     private EquipmentType availableEquipment;
+
+    private Integer daysPerWeek;
 
     @Column(columnDefinition = "TEXT")
     private String additionalNotes;
@@ -34,6 +38,7 @@ public class AiPlanRequest {
     @Column(columnDefinition = "TEXT")
     private String rawPrompt;
 
+    @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

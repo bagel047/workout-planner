@@ -37,10 +37,12 @@ public class User implements UserDetails {
     private AuthProvider provider;
     private String providerId;      // null for LOCAL users
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.ROLE_USER;
 
+    @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

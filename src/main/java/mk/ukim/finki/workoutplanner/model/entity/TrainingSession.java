@@ -27,6 +27,7 @@ public class TrainingSession {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

@@ -24,6 +24,7 @@ public class AiPlanResponse {
 
     private String parseErrorMessage;
 
+    @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
