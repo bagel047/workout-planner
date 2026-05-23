@@ -2,6 +2,7 @@ package mk.ukim.finki.workoutplanner.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.workoutplanner.exception.ExerciseNotFoundException;
+import mk.ukim.finki.workoutplanner.exception.UnauthorizedAccessException;
 import mk.ukim.finki.workoutplanner.model.entity.Exercise;
 import mk.ukim.finki.workoutplanner.model.entity.User;
 import mk.ukim.finki.workoutplanner.model.enums.ContentSource;
@@ -55,7 +56,19 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise findById(Long id) {
-        return exerciseRepository.findById(id).orElseThrow(() -> new ExerciseNotFoundException(id));
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ExerciseNotFoundException(id));
+
+        if (exercise.getSource() == ContentSource.SYSTEM) {
+            return exercise; // SYSTEM exercises are public
+        }
+
+        User currentUser = SecurityUtil.getCurrentUser();
+        if (!exercise.getCreatedBy().getId().equals(currentUser.getId())) {
+            throw new UnauthorizedAccessException();
+        }
+
+        return exercise;
     }
 
     @Override
