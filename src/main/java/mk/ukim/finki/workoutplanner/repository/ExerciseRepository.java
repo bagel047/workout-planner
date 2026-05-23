@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
+public interface ExerciseRepository extends JpaSpecificationRepository<Exercise, Long> {
     List<Exercise> findBySource(ContentSource source);
     List<Exercise> findBySourceOrCreatedById(ContentSource source, Long userId);  // SYSTEM + own
     List<Exercise> findByNameIgnoreCase(String name);
