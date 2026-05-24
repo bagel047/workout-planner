@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface WorkoutPlanRepository extends JpaRepository<WorkoutPlan, Long> {
+public interface WorkoutPlanRepository extends JpaSpecificationRepository<WorkoutPlan, Long> {
     List<WorkoutPlan> findBySource(ContentSource source);
     List<WorkoutPlan> findByUserId(Long userId);
     List<WorkoutPlan> findBySourceOrUserId(ContentSource source, Long userId); // SYSTEM + own

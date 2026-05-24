@@ -14,6 +14,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
+//        ex.printStackTrace();
+
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // default
 
         ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);

@@ -35,6 +35,20 @@ public class FieldFilterSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(fieldToPath(field, root), value);
     }
 
+    public static <T> Specification<T> filterEquals(Class<T> clazz, String field, Integer value) {
+        if (value == null) {
+            return (root, query, cb) -> cb.conjunction();
+        }
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(fieldToPath(field, root), value);
+    }
+
+    public static <T> Specification<T> filterEquals(Class<T> clazz, String field, Boolean value) {
+        if (value == null) {
+            return (root, query, cb) -> cb.conjunction();
+        }
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(fieldToPath(field, root), value);
+    }
+
     public static <T> Specification<T> filterContainsText(Class<T> clazz, String field, String value) {
         if (value == null || value.isEmpty()) {
             return (root, query, cb) -> cb.conjunction();

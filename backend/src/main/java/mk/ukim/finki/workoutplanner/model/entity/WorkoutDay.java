@@ -1,6 +1,8 @@
 package mk.ukim.finki.workoutplanner.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class WorkoutDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(1) @Max(7)
     @Column(nullable = false)
     private Integer dayNumber;
 
