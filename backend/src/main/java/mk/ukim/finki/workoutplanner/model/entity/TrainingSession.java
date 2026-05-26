@@ -39,6 +39,6 @@ public class TrainingSession {
     @JoinColumn(name = "workout_day_id")
     private WorkoutDay workoutDay;   // which planned day they followed (nullable for free sessions)
 
-    @OneToMany(mappedBy = "trainingSession", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "trainingSession", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SessionSet> sessionSets;
 }

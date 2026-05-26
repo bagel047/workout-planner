@@ -50,7 +50,7 @@ public class WorkoutPlan {
     @JoinColumn(name = "user_id")
     private User user;             // null for SYSTEM plans
 
-    @OneToMany(mappedBy = "workoutPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workoutPlan", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("dayNumber ASC")
     private List<WorkoutDay> workoutDays;
 }

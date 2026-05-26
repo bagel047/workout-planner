@@ -276,12 +276,13 @@ public class DataHolder {
                     .workoutExercises(new ArrayList<>())
                     .build();
             pushDay.getWorkoutExercises().addAll(List.of(
-                    WorkoutExercise.builder().exercise(benchPress).workoutDay(pushDay).sets(4).reps(8).restSeconds(90).orderIndex(1).build(),
-                    WorkoutExercise.builder().exercise(inclinePress).workoutDay(pushDay).sets(3).reps(10).restSeconds(75).orderIndex(2).build(),
-                    WorkoutExercise.builder().exercise(overheadPress).workoutDay(pushDay).sets(3).reps(10).restSeconds(75).orderIndex(3).build(),
-                    WorkoutExercise.builder().exercise(lateralRaise).workoutDay(pushDay).sets(3).reps(15).restSeconds(60).orderIndex(4).build(),
-                    WorkoutExercise.builder().exercise(tricepPushdown).workoutDay(pushDay).sets(3).reps(12).restSeconds(60).orderIndex(5).build(),
-                    WorkoutExercise.builder().exercise(closeGripBench).workoutDay(pushDay).sets(3).reps(10).restSeconds(75).orderIndex(6).build()
+                    // CHEST
+                    WorkoutExercise.builder().exercise(benchPress).workoutDay(pushDay).sets(4).reps(8).weightKg(80.0).restSeconds(90).orderIndex(1).build(),
+                    WorkoutExercise.builder().exercise(inclinePress).workoutDay(pushDay).sets(3).reps(10).weightKg(22.5).restSeconds(75).orderIndex(2).build(),
+                    WorkoutExercise.builder().exercise(overheadPress).workoutDay(pushDay).sets(3).reps(10).weightKg(50.0).restSeconds(75).orderIndex(3).build(),
+                    WorkoutExercise.builder().exercise(lateralRaise).workoutDay(pushDay).sets(3).reps(15).weightKg(10.0).restSeconds(60).orderIndex(4).build(),
+                    WorkoutExercise.builder().exercise(tricepPushdown).workoutDay(pushDay).sets(3).reps(12).weightKg(25.0).restSeconds(60).orderIndex(5).build(),
+                    WorkoutExercise.builder().exercise(closeGripBench).workoutDay(pushDay).sets(3).reps(10).weightKg(70.0).restSeconds(75).orderIndex(6).build()
             ));
 
             WorkoutDay pullDay = WorkoutDay.builder()
@@ -290,11 +291,11 @@ public class DataHolder {
                     .workoutExercises(new ArrayList<>())
                     .build();
             pullDay.getWorkoutExercises().addAll(List.of(
-                    WorkoutExercise.builder().exercise(deadlift).workoutDay(pullDay).sets(4).reps(5).restSeconds(120).orderIndex(1).build(),
-                    WorkoutExercise.builder().exercise(pullUp).workoutDay(pullDay).sets(4).reps(8).restSeconds(90).orderIndex(2).build(),
-                    WorkoutExercise.builder().exercise(seatedCableRow).workoutDay(pullDay).sets(3).reps(10).restSeconds(75).orderIndex(3).build(),
-                    WorkoutExercise.builder().exercise(barbellCurl).workoutDay(pullDay).sets(3).reps(12).restSeconds(60).orderIndex(4).build(),
-                    WorkoutExercise.builder().exercise(hammerCurl).workoutDay(pullDay).sets(3).reps(12).restSeconds(60).orderIndex(5).build()
+                    WorkoutExercise.builder().exercise(deadlift).workoutDay(pullDay).sets(4).reps(5).weightKg(120.0).restSeconds(120).orderIndex(1).build(),
+                    WorkoutExercise.builder().exercise(pullUp).workoutDay(pullDay).sets(4).reps(8).weightKg(0.0).restSeconds(90).orderIndex(2).build(),
+                    WorkoutExercise.builder().exercise(seatedCableRow).workoutDay(pullDay).sets(3).reps(10).weightKg(60.0).restSeconds(75).orderIndex(3).build(),
+                    WorkoutExercise.builder().exercise(barbellCurl).workoutDay(pullDay).sets(3).reps(12).weightKg(30.0).restSeconds(60).orderIndex(4).build(),
+                    WorkoutExercise.builder().exercise(hammerCurl).workoutDay(pullDay).sets(3).reps(12).weightKg(14.0).restSeconds(60).orderIndex(5).build()
             ));
 
             WorkoutDay legsDay = WorkoutDay.builder()
@@ -303,12 +304,12 @@ public class DataHolder {
                     .workoutExercises(new ArrayList<>())
                     .build();
             legsDay.getWorkoutExercises().addAll(List.of(
-                    WorkoutExercise.builder().exercise(barbellSquat).workoutDay(legsDay).sets(4).reps(8).restSeconds(120).orderIndex(1).build(),
-                    WorkoutExercise.builder().exercise(legPress).workoutDay(legsDay).sets(3).reps(12).restSeconds(90).orderIndex(2).build(),
-                    WorkoutExercise.builder().exercise(legExtension).workoutDay(legsDay).sets(3).reps(15).restSeconds(60).orderIndex(3).build(),
-                    WorkoutExercise.builder().exercise(romanianDeadlift).workoutDay(legsDay).sets(3).reps(10).restSeconds(90).orderIndex(4).build(),
-                    WorkoutExercise.builder().exercise(lyingLegCurl).workoutDay(legsDay).sets(3).reps(12).restSeconds(60).orderIndex(5).build(),
-                    WorkoutExercise.builder().exercise(hipThrust).workoutDay(legsDay).sets(3).reps(12).restSeconds(75).orderIndex(6).build()
+                    WorkoutExercise.builder().exercise(barbellSquat).workoutDay(legsDay).sets(4).reps(8).weightKg(100.0).restSeconds(120).orderIndex(1).build(),
+                    WorkoutExercise.builder().exercise(legPress).workoutDay(legsDay).sets(3).reps(12).weightKg(150.0).restSeconds(90).orderIndex(2).build(),
+                    WorkoutExercise.builder().exercise(legExtension).workoutDay(legsDay).sets(3).reps(15).weightKg(50.0).restSeconds(60).orderIndex(3).build(),
+                    WorkoutExercise.builder().exercise(romanianDeadlift).workoutDay(legsDay).sets(3).reps(10).weightKg(80.0).restSeconds(90).orderIndex(4).build(),
+                    WorkoutExercise.builder().exercise(lyingLegCurl).workoutDay(legsDay).sets(3).reps(12).weightKg(40.0).restSeconds(60).orderIndex(5).build(),
+                    WorkoutExercise.builder().exercise(hipThrust).workoutDay(legsDay).sets(3).reps(12).weightKg(90.0).restSeconds(75).orderIndex(6).build()
             ));
 
             WorkoutPlan ppl = WorkoutPlan.builder()
@@ -335,11 +336,11 @@ public class DataHolder {
                     .workoutExercises(new ArrayList<>())
                     .build();
             fullBodyA.getWorkoutExercises().addAll(List.of(
-                    WorkoutExercise.builder().exercise(barbellSquat).workoutDay(fullBodyA).sets(3).reps(10).restSeconds(90).orderIndex(1).build(),
-                    WorkoutExercise.builder().exercise(benchPress).workoutDay(fullBodyA).sets(3).reps(10).restSeconds(90).orderIndex(2).build(),
-                    WorkoutExercise.builder().exercise(seatedCableRow).workoutDay(fullBodyA).sets(3).reps(10).restSeconds(90).orderIndex(3).build(),
-                    WorkoutExercise.builder().exercise(overheadPress).workoutDay(fullBodyA).sets(3).reps(10).restSeconds(90).orderIndex(4).build(),
-                    WorkoutExercise.builder().exercise(plank).workoutDay(fullBodyA).sets(3).reps(30).restSeconds(60).orderIndex(5).build()
+                    WorkoutExercise.builder().exercise(barbellSquat).workoutDay(fullBodyA).sets(3).reps(10).weightKg(60.0).restSeconds(90).orderIndex(1).build(),
+                    WorkoutExercise.builder().exercise(benchPress).workoutDay(fullBodyA).sets(3).reps(10).weightKg(60.0).restSeconds(90).orderIndex(2).build(),
+                    WorkoutExercise.builder().exercise(seatedCableRow).workoutDay(fullBodyA).sets(3).reps(10).weightKg(50.0).restSeconds(90).orderIndex(3).build(),
+                    WorkoutExercise.builder().exercise(overheadPress).workoutDay(fullBodyA).sets(3).reps(10).weightKg(40.0).restSeconds(90).orderIndex(4).build(),
+                    WorkoutExercise.builder().exercise(plank).workoutDay(fullBodyA).sets(3).reps(30).weightKg(0.0).restSeconds(60).orderIndex(5).build()
             ));
 
             WorkoutDay fullBodyB = WorkoutDay.builder()
@@ -348,11 +349,11 @@ public class DataHolder {
                     .workoutExercises(new ArrayList<>())
                     .build();
             fullBodyB.getWorkoutExercises().addAll(List.of(
-                    WorkoutExercise.builder().exercise(deadlift).workoutDay(fullBodyB).sets(3).reps(8).restSeconds(120).orderIndex(1).build(),
-                    WorkoutExercise.builder().exercise(inclinePress).workoutDay(fullBodyB).sets(3).reps(10).restSeconds(90).orderIndex(2).build(),
-                    WorkoutExercise.builder().exercise(pullUp).workoutDay(fullBodyB).sets(3).reps(8).restSeconds(90).orderIndex(3).build(),
-                    WorkoutExercise.builder().exercise(lateralRaise).workoutDay(fullBodyB).sets(3).reps(15).restSeconds(60).orderIndex(4).build(),
-                    WorkoutExercise.builder().exercise(kettlebellSwing).workoutDay(fullBodyB).sets(3).reps(15).restSeconds(60).orderIndex(5).build()
+                    WorkoutExercise.builder().exercise(deadlift).workoutDay(fullBodyB).sets(3).reps(8).weightKg(80.0).restSeconds(120).orderIndex(1).build(),
+                    WorkoutExercise.builder().exercise(inclinePress).workoutDay(fullBodyB).sets(3).reps(10).weightKg(20.0).restSeconds(90).orderIndex(2).build(),
+                    WorkoutExercise.builder().exercise(pullUp).workoutDay(fullBodyB).sets(3).reps(8).weightKg(0.0).restSeconds(90).orderIndex(3).build(),
+                    WorkoutExercise.builder().exercise(lateralRaise).workoutDay(fullBodyB).sets(3).reps(15).weightKg(8.0).restSeconds(60).orderIndex(4).build(),
+                    WorkoutExercise.builder().exercise(kettlebellSwing).workoutDay(fullBodyB).sets(3).reps(15).weightKg(24.0).restSeconds(60).orderIndex(5).build()
             ));
 
             WorkoutPlan fullBodyBeginner = WorkoutPlan.builder()

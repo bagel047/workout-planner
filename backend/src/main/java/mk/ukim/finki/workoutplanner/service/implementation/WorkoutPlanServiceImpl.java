@@ -1,10 +1,7 @@
 package mk.ukim.finki.workoutplanner.service.implementation;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.workoutplanner.exception.ExerciseNotFoundException;
-import mk.ukim.finki.workoutplanner.exception.UnauthorizedAccessException;
-import mk.ukim.finki.workoutplanner.exception.WorkoutDayNotFoundException;
-import mk.ukim.finki.workoutplanner.exception.WorkoutPlanNotFoundException;
+import mk.ukim.finki.workoutplanner.exception.*;
 import mk.ukim.finki.workoutplanner.model.entity.Exercise;
 import mk.ukim.finki.workoutplanner.model.entity.User;
 import mk.ukim.finki.workoutplanner.model.entity.WorkoutDay;
@@ -171,6 +168,12 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     // --- Days --------------------------------------------------
 
     @Override
+    public WorkoutDay findDayById(Long dayId) {
+        return workoutDayRepository.findById(dayId)
+                .orElseThrow(() -> new WorkoutDayNotFoundException(dayId));
+    }
+
+    @Override
     @Transactional
     public WorkoutPlan addDay(Long planId, WorkoutDayRequest request) {
         WorkoutPlan plan = workoutPlanRepository.findById(planId)
@@ -229,6 +232,12 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     // --- Exercises --------------------------------------------------
+
+    @Override
+    public WorkoutExercise findWorkoutExerciseById(Long exerciseId) {
+        return workoutExerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new WorkoutExerciseNotFoundException(exerciseId));
+    }
 
     @Override
     @Transactional
@@ -311,7 +320,7 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         return day.getWorkoutExercises().stream()
                 .filter(e -> e.getId().equals(exerciseId))
                 .findFirst()
-                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId));
+                .orElseThrow(() -> new WorkoutExerciseNotFoundException(exerciseId));
     }
 
     private WorkoutExercise buildWorkoutExercise(WorkoutExerciseRequest request, WorkoutDay day) {

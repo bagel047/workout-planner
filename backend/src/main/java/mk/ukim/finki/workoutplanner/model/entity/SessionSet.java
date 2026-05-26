@@ -23,7 +23,11 @@ public class SessionSet {
     @JoinColumn(name = "training_session_id", nullable = false)
     private TrainingSession trainingSession;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "workout_exercise_id")
     private WorkoutExercise workoutExercise;  // nullable for unplanned exercises
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "exercise_id", nullable = false)
+    private Exercise exercise;
 }

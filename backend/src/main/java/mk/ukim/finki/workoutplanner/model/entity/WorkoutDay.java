@@ -30,7 +30,7 @@ public class WorkoutDay {
     @JoinColumn(name = "workout_plan_id", nullable = false)
     private WorkoutPlan workoutPlan;
 
-    @OneToMany(mappedBy = "workoutDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workoutDay", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("orderIndex ASC")
     private List<WorkoutExercise> workoutExercises;
 }
