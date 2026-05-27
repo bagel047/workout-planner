@@ -22,6 +22,7 @@ public class AiPlanResponse {
 
     private Boolean parsedSuccessfully;
 
+    @Column(columnDefinition = "TEXT")
     private String parseErrorMessage;
 
     @Builder.Default

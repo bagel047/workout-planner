@@ -41,7 +41,7 @@ public class Exercise {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ContentSource source;       // SYSTEM or USER
+    private ContentSource source;       // SYSTEM, USER, AI
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")

@@ -7,6 +7,7 @@ import mk.ukim.finki.workoutplanner.model.enums.FitnessGoal;
 import mk.ukim.finki.workoutplanner.model.enums.Level;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "ai_plan_requests")
@@ -26,9 +27,12 @@ public class AiPlanRequest {
     @Enumerated(EnumType.STRING)
     private Level experienceLevel;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "ai_plan_request_equipment",
+            joinColumns = @JoinColumn(name = "ai_plan_request_id"))
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "TEXT")
-    private EquipmentType availableEquipment;
+    @Column(name = "equipment_type")
+    private List<EquipmentType> availableEquipment;
 
     private Integer daysPerWeek;
 
