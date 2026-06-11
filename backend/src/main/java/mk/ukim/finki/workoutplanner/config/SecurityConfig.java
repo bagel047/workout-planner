@@ -7,6 +7,7 @@ import mk.ukim.finki.workoutplanner.web.filter.JwtAuthFilter;
 import mk.ukim.finki.workoutplanner.web.handler.OAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -49,6 +50,8 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/api/exercises/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/plans/**").permitAll()
                         .requestMatchers(
                                 "/api/auth/**",        // register, login
                                 "/oauth2/**",          // OAuth2 redirects

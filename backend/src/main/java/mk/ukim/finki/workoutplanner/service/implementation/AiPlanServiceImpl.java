@@ -39,7 +39,13 @@ public class AiPlanServiceImpl implements AiPlanService {
         User currentUser = SecurityUtil.getCurrentUser();
 
         // fetch all accessible exercises to include in prompt
-        List<Exercise> availableExercises = exerciseRepository.findAll();
+        List<MuscleGroup> relevantGroups = relevantMuscleGroups(request.goal());
+
+        List<Exercise> availableExercises = exerciseRepository.findAll().stream()
+                .filter(e -> (request.availableEquipment().contains(e.getEquipmentType())
+                        || e.getEquipmentType() == EquipmentType.BODYWEIGHT)
+                        && relevantGroups.contains(e.getMuscleGroup()))
+                .toList();
 
         String prompt = buildPrompt(request, availableExercises);
 
@@ -265,5 +271,20 @@ public class AiPlanServiceImpl implements AiPlanService {
                 request.goal(),
                 request.experienceLevel()
         );
+    }
+
+    private List<MuscleGroup> relevantMuscleGroups(FitnessGoal goal) {
+        return switch (goal) {
+            case MUSCLE_GAIN, STRENGTH -> List.of(
+                    MuscleGroup.CHEST, MuscleGroup.BACK, MuscleGroup.SHOULDERS,
+                    MuscleGroup.BICEPS, MuscleGroup.TRICEPS, MuscleGroup.LEGS,
+                    MuscleGroup.GLUTES, MuscleGroup.HAMSTRINGS, MuscleGroup.QUADS);
+            case FAT_LOSS, ENDURANCE -> List.of(
+                    MuscleGroup.FULL_BODY, MuscleGroup.CARDIO, MuscleGroup.LEGS,
+                    MuscleGroup.CORE, MuscleGroup.BACK, MuscleGroup.CHEST);
+            case FLEXIBILITY -> List.of(
+                    MuscleGroup.FULL_BODY, MuscleGroup.CORE);
+            case GENERAL_FITNESS -> List.of(MuscleGroup.values()); // all
+        };
     }
 }
