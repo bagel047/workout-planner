@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import bgImage from "../assets/1bg.jpg";
+import bgImage from "../assets/testbg1.jpg";
 import bg2 from "../assets/2bg.jpg";
 import bg3 from "../assets/3bg.jpg";
+import img1 from "../assets/img1.png";
+import img2 from "../assets/img2.png";
 import {
   Dumbbell,
   ClipboardList,
@@ -21,6 +23,7 @@ const features = [
     icon: Dumbbell,
     number: "01",
     bg: null,
+    img: img1,
   },
   {
     name: "Workout Plans",
@@ -29,6 +32,7 @@ const features = [
     icon: ClipboardList,
     number: "02",
     bg: bg2,
+    img: null,
   },
   {
     name: "AI Plan Generation",
@@ -37,6 +41,7 @@ const features = [
     icon: Sparkles,
     number: "03",
     bg: null,
+    img: img2,
   },
   {
     name: "Progress Tracking",
@@ -45,6 +50,7 @@ const features = [
     icon: BarChart2,
     number: "04",
     bg: bg3,
+    img: null,
   },
 ];
 
@@ -125,10 +131,27 @@ function FeatureRow({ feature, index }) {
           </p>
         </div>
         <div className="flex-1 flex justify-center feature-visual">
-          <div className="w-56 h-56 lg:w-72 lg:h-72 rounded-2xl border border-white/10 flex items-center justify-center bg-white/[0.03]">
-            <feature.icon
+          {/* <feature.icon
               className="w-20 h-20 text-[#e4ddcc]/40"
               strokeWidth={0.8}
+            /> */}
+          <div
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 5%, black 20%, black 80%, transparent 95%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 5%, black 20%, black 80%, transparent 95%)",
+            }}
+          >
+            <img
+              src={feature.img}
+              className="brightness-60 opacity-90"
+              style={{
+                maskImage:
+                  "linear-gradient(to right, black 60%, transparent 95%)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, black 60%, transparent 95%)",
+              }}
             />
           </div>
         </div>
@@ -190,8 +213,12 @@ export default function Home() {
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
             {user ? (
-              <Link to="/plans">
-                <Button size="lg" variant="secondary" className="gap-2">
+              <Link to={`/plans/${user.username}`}>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="gap-2 cursor-pointer hover:opacity-80"
+                >
                   Go to your plans <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
@@ -244,6 +271,18 @@ export default function Home() {
           <p className="text-white/40 text-base mb-10 max-w-sm mx-auto leading-relaxed">
             Get your first AI-generated plan in under a minute.
           </p>
+          {user && (
+            <Link to="/generate">
+              <Button
+                size="sm"
+                variant="secondary"
+                className={`gap-1.5 hover:opacity-80 cursor-pointer`}
+              >
+                <Sparkles className="h-4 w-4" />
+                AI Generate
+              </Button>
+            </Link>
+          )}
           {!user && (
             <Link to="/register">
               <Button size="lg" variant="secondary" className="gap-2">

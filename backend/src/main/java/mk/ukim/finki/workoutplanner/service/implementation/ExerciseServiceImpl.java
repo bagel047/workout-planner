@@ -35,11 +35,14 @@ public class ExerciseServiceImpl implements ExerciseService {
                                          Integer pageNum, Integer pageSize) {
 
         User currentUser = SecurityUtil.getCurrentUser();
+        Specification<Exercise> accessFilter;
 
-        Specification<Exercise> accessFilter = Specification.anyOf(
-                filterEqualsV(Exercise.class, "source", ContentSource.SYSTEM),
-                filterEquals(Exercise.class, "createdBy.id", currentUser.getId())
-        );
+        if(currentUser != null)
+            accessFilter = Specification.anyOf(
+                    filterEqualsV(Exercise.class, "source", ContentSource.SYSTEM),
+                    filterEquals(Exercise.class, "createdBy.id", currentUser.getId()));
+        else
+            accessFilter = filterEqualsV(Exercise.class, "source", ContentSource.SYSTEM);
 
         Specification<Exercise> specification = Specification.allOf(
                 accessFilter,

@@ -22,6 +22,6 @@ public class SecurityUtil {
             return user;
         }
 
-        throw new UsernameNotFoundException("Unexpected principal type: " + principal.getClass());
+        return null;
     }
 }

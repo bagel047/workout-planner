@@ -136,7 +136,8 @@ export default function Header() {
             <Link to="/generate">
               <Button
                 size="sm"
-                className={`gap-1.5 hover:opacity-80 hover:text-white ${isLightPage ? "text-primary bg-white" : "text-white bg-primary"}`}
+                variant="secondary"
+                className={`gap-1.5 hover:opacity-80 cursor-pointer`}
               >
                 <Sparkles className="h-4 w-4" />
                 AI Generate
@@ -151,7 +152,7 @@ export default function Header() {
             // User dropdown
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:opacity-80 transition-opacity outline-none">
+                <button className="flex items-center gap-2 group group-hover:opacity-80 transition-opacity outline-none cursor-pointer">
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="text-xs bg-white/20">
                       {user.username?.charAt(0).toUpperCase()}
@@ -161,13 +162,20 @@ export default function Header() {
                   <ChevronDownIcon className="h-4 w-4 opacity-60" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
+              <DropdownMenuContent align="end" className="w-48 z-99">
+                <DropdownMenuItem
+                  onClick={() => navigate("/profile")}
+                  className="cursor-pointer"
+                >
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} variant="destructive">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  variant="destructive"
+                  className="cursor-pointer"
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Log out
                 </DropdownMenuItem>
@@ -185,7 +193,7 @@ export default function Header() {
                 <Button
                   size="sm"
                   variant="secondary"
-                  className={`${isLightPage ? "" : "bg-primary text-white hover:bg-primary hover:opacity-80"}`}
+                  className="hover:opacity-80 cursor-pointer"
                 >
                   Get Started
                 </Button>
@@ -272,7 +280,11 @@ export default function Header() {
                     Log in
                   </Link>
                   <Link to="/register" onClick={() => setMobileOpen(false)}>
-                    <Button className="w-full" size="sm" variant="secondary">
+                    <Button
+                      className="w-full rounded-lg px-3 py-2 text-base font-medium hover:opacity-70 transition-opacity"
+                      size="sm"
+                      variant="secondary"
+                    >
                       Get Started
                     </Button>
                   </Link>

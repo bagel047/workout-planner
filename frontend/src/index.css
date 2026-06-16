@@ -56,7 +56,8 @@ html {
 :root {
   /* --background: oklch(1 0 0); */
   /* --background: #252525; */
-  --background: oklab(0 0 0 / 0.8);
+  /* --background: oklab(0 0 0 / 0.8); */
+  --background: #09090b;
   /* --foreground: oklch(0.145 0 0); */
   --foreground: #f8f4ee;
   --card: oklch(1 0 0);

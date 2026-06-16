@@ -13,6 +13,10 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Exercises from "./pages/Exercises";
+import Plans from "./pages/Plans";
+import UserPlans from "./pages/UserPlans";
+import GoalPlans from "./pages/GoalPlans";
+import CreateExercise from "./pages/CreateExercise";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import Layout from "./components/Layout";
 
@@ -37,7 +41,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/oauth2/callback" element={<OAuth2Callback />} />
             <Route path="/exercises" element={<Exercises />} />
-            <Route path="/plans" element={<div>Plans page</div>} />
+            <Route path="/plans" element={<Plans />} />
             <Route
               path="/sessions"
               element={
@@ -54,6 +58,23 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/exercises/new"
+              element={
+                <ProtectedRoute>
+                  <CreateExercise />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/plans/:username"
+              element={
+                <ProtectedRoute>
+                  <UserPlans />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route path="/plans/goal/:goalKey" element={<GoalPlans />} />
           </Routes>
         </Layout>
       </AuthProvider>

@@ -47,12 +47,16 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
                                             FitnessGoal goal, Level experienceLevel,
                                             ContentSource source, Boolean isAiGenerated,
                                             Integer pageNum, Integer pageSize) {
-        User currentUser = SecurityUtil.getCurrentUser();
 
-        Specification<WorkoutPlan> accessFilter = Specification.anyOf(
-                filterEqualsV(WorkoutPlan.class, "source", ContentSource.SYSTEM),
-                filterEquals(WorkoutPlan.class, "user.id", currentUser.getId())
-        );
+        User currentUser = SecurityUtil.getCurrentUser();
+        Specification<WorkoutPlan> accessFilter;
+
+        if(currentUser != null)
+            accessFilter = Specification.anyOf(
+                    filterEqualsV(WorkoutPlan.class, "source", ContentSource.SYSTEM),
+                    filterEquals(WorkoutPlan.class, "user.id", currentUser.getId()));
+        else
+            accessFilter = filterEqualsV(WorkoutPlan.class, "source", ContentSource.SYSTEM);
 
         List<Specification<WorkoutPlan>> filters = new ArrayList<>();
         filters.add(accessFilter);

@@ -1,3 +1,5 @@
+import { useAuth } from "#hooks/useAuth.js";
+
 import chestImg from "../assets/muscle_groups/chest.png";
 import backImg from "../assets/muscle_groups/back.png";
 import shouldersImg from "../assets/muscle_groups/shoulders.png";
@@ -7,9 +9,9 @@ import legsImg from "../assets/muscle_groups/legs.png";
 import glutesImg from "../assets/muscle_groups/glutes.png";
 import hamstringsImg from "../assets/muscle_groups/hamstrings.png";
 import quadsImg from "../assets/muscle_groups/quads.png";
-import coreImg from "../assets/muscle_groups/chest.png";
-import cardioImg from "../assets/muscle_groups/chest.png";
-import fullBodyImg from "../assets/muscle_groups/chest.png";
+import coreImg from "../assets/muscle_groups/core.png";
+import cardioImg from "../assets/muscle_groups/cardio.png";
+import fullBodyImg from "../assets/muscle_groups/fullbody.png";
 
 export const muscleGroupImages = {
   CHEST: chestImg,
@@ -36,14 +38,26 @@ export const muscleGroupImages = {
 // };
 
 export default function Exercise({ exercise }) {
-  const sourceLabel = (source) => {
+  const { user } = useAuth();
+
+  const sourceLabel = (source, isAiGenerated, username) => {
     if (source === "SYSTEM")
-      return { label: "SYSTEM", color: "bg-white/10 text-white/40" };
-    if (source === "USER")
-      return { label: "MINE", color: "bg-[#443a35]/60 text-[#e4ddcc]" };
-    if (source === "AI")
-      return { label: "AI", color: "bg-purple-900/40 text-purple-300" };
-    return { label: source, color: "bg-white/10 text-white/40" };
+      return {
+        label: "SYSTEM",
+        style: {
+          background: "rgba(255,255,255,0.12)",
+          color: "rgba(248,244,238,0.65)",
+        },
+      };
+    if (isAiGenerated)
+      return {
+        label: "AI",
+        style: { background: "rgba(138,92,246,0.35)", color: "#d4bbff" },
+      };
+    return {
+      label: username || "MINE",
+      style: { background: "rgba(200,169,126,0.25)", color: "#c8a97e" },
+    };
   };
 
   const levelColor = (level) => {
@@ -53,12 +67,16 @@ export default function Exercise({ exercise }) {
     return "text-white/40";
   };
 
-  const src = sourceLabel(exercise.source);
+  const src = sourceLabel(
+    exercise.source,
+    exercise.isAiGenerated,
+    user?.username,
+  );
   return (
     <div
       key={exercise.id}
       onClick={() => navigate(`/exercises/${exercise.id}`)}
-      className="rounded-xl overflow-hidden cursor-pointer hover:bg-white/[0.07] hover:border-white/20 transition-all group"
+      className="rounded-sm overflow-hidden cursor-pointer hover:bg-white/[0.07] hover:border-white/20 transition-all group"
     >
       {/* Image placeholder — muscle group icon */}
       <div className="relative h-28 bg-white/[0.03] flex items-center justify-center overflow-hidden">
@@ -95,7 +113,12 @@ export default function Exercise({ exercise }) {
             {exercise.difficultyLevel?.charAt(0) +
               exercise.difficultyLevel?.slice(1).toLowerCase()}
           </span>
-          <span className={`text-[10px] px-1.5 py-0.5 rounded ${src.color}`}>
+          <span
+            className={`text-[10px] opacity-80 px-1.5 py-0.5 rounded ${src.color}`}
+            style={{
+              border: "0.5px solid rgba(255,255,255,0.08)",
+            }}
+          >
             {src.label}
           </span>
         </div>

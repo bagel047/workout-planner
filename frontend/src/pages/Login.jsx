@@ -44,7 +44,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-black/80">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md border border-3 border-black/60">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Welcome back</CardTitle>
@@ -74,7 +74,11 @@ export default function Login() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full mt-2" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full mt-2 cursor-pointer"
+              disabled={loading}
+            >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>

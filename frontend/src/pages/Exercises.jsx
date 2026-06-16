@@ -7,7 +7,7 @@ import { Search, Plus, Dumbbell } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import Exercise from "../components/Exercise";
+import Exercise from "../components/ExerciseCard";
 import cover from "../assets/cover.jpg";
 
 const MUSCLE_GROUPS = [
@@ -88,7 +88,7 @@ export default function Exercises() {
   }, [search]);
 
   return (
-    <div className="min-h-screen bg-black/80 pb-16">
+    <div className="min-h-screen bg-zinc-950 pb-16">
       {/* Header row */}
       <div className="min-h-[300px] px-32 py-6 relative overflow-hidden mb-8 flex items-end justify-between rounded-t-xl">
         <img
@@ -183,7 +183,7 @@ export default function Exercises() {
         </div>
 
         {/* Grid */}
-        <div className="max-w-7xl mx-auto mt-18">
+        <div className="max-w-7xl mx-auto mt-16">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
@@ -195,22 +195,19 @@ export default function Exercises() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-22 gap-x-1 bg-black p-10 border border-primary rounded-xl">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-1 gap-y-8 rounded-sm">
                 {exercises.map((exercise) => {
                   // console.log(exercise);
                   return <Exercise key={exercise.id} exercise={exercise} />;
                 })}
-                {user && (
-                  <div
-                    onClick={() => navigate("/exercises/new")}
-                    className="bg-white/[0.02] border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center h-full min-h-[180px] cursor-pointer hover:bg-white/[0.05] hover:border-white/20 transition-all gap-2"
-                  >
-                    <Plus className="w-6 h-6 text-white/20" />
-                    <span className="text-xs text-white/25">
-                      Create exercise
-                    </span>
-                  </div>
-                )}
+
+                <div
+                  onClick={() => navigate("/exercises/new")}
+                  className="bg-white/[0.02] border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center h-full min-h-[180px] cursor-pointer hover:bg-white/[0.05] hover:border-white/20 transition-all gap-2"
+                >
+                  <Plus className="w-6 h-6 text-white/20" />
+                  <span className="text-xs text-white/25">Create exercise</span>
+                </div>
               </div>
 
               {/* Pagination */}
@@ -219,7 +216,7 @@ export default function Exercises() {
                   <button
                     disabled={page === 0}
                     onClick={() => setPage((p) => p - 1)}
-                    className="text-sm px-4 py-2 rounded-lg bg-white/5 text-white/50 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="text-sm px-4 py-2 rounded-lg bg-white/5 text-white/50 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
                   >
                     ← Prev
                   </button>
@@ -229,7 +226,7 @@ export default function Exercises() {
                   <button
                     disabled={page >= totalPages - 1}
                     onClick={() => setPage((p) => p + 1)}
-                    className="text-sm px-4 py-2 rounded-lg bg-white/5 text-white/50 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="text-sm px-4 py-2 rounded-lg bg-white/5 text-white/50 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all  cursor-pointer"
                   >
                     Next →
                   </button>
