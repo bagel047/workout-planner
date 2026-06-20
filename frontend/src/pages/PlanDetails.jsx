@@ -438,7 +438,7 @@ export default function PlanDetails() {
     try {
       await axiosInstance.delete(`/plans/${id}`);
       toast.success("Plan deleted");
-      navigate("/plans/mine");
+      navigate("/plans/myplans");
     } catch {
       toast.error("Failed to delete plan");
     }

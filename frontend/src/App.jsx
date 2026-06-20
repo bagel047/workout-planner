@@ -19,6 +19,7 @@ import PlanDetails from "./pages/PlanDetails";
 import UserPlans from "./pages/UserPlans";
 import GoalPlans from "./pages/GoalPlans";
 import CreateExercise from "./pages/CreateExercise";
+import AiGenerate from "./pages/AiGenerate";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import Layout from "./components/Layout";
 
@@ -43,6 +44,14 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/oauth2/callback" element={<OAuth2Callback />} />
             <Route path="/exercises" element={<Exercises />} />
+            <Route
+              path="/exercises/new"
+              element={
+                <ProtectedRoute>
+                  <CreateExercise />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/plans" element={<Plans />} />
             <Route
               path="/plans/new"
@@ -52,6 +61,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/plans/myplans"
+              element={
+                <ProtectedRoute>
+                  <UserPlans />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/plans/goal/:goalKey" element={<GoalPlans />} />
             <Route path="/plans/:id" element={<PlanDetails />} />
             <Route
               path="/sessions"
@@ -65,27 +83,10 @@ function App() {
               path="/generate"
               element={
                 <ProtectedRoute>
-                  <div>AI Generate page</div>
+                  <AiGenerate />
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/exercises/new"
-              element={
-                <ProtectedRoute>
-                  <CreateExercise />
-                </ProtectedRoute>
-              }
-            ></Route>
-            <Route
-              path="/plans/:username"
-              element={
-                <ProtectedRoute>
-                  <UserPlans />
-                </ProtectedRoute>
-              }
-            ></Route>
-            <Route path="/plans/goal/:goalKey" element={<GoalPlans />} />
           </Routes>
         </Layout>
       </AuthProvider>

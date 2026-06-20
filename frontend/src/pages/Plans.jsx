@@ -77,7 +77,8 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
   const [expanded, setExpanded] = useState(false);
   const plans = goalPlans[goal.key] || [];
 
-  const handleToggle = () => {
+  const handleToggle = (e) => {
+    e.stopPropagation();
     if (!expanded) fetchGoalPlans(goal.key);
     setExpanded((e) => !e);
   };
@@ -89,7 +90,7 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
         height: expanded ? "340px" : "80px",
         transition: "height 0.5s cubic-bezier(0.4,0,0.2,1)",
       }}
-      onClick={handleToggle}
+      onClick={() => navigate(`/plans/goal/${goal.key}`)}
     >
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -104,21 +105,32 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
         }}
       />
 
-      {/* Collapsed row */}
       <div
         className="absolute inset-0 flex items-center px-5 gap-3"
         style={{ opacity: expanded ? 0 : 1, transition: "opacity 0.2s ease" }}
       >
-        <span className="text-sm font-semibold" style={{ color: goal.accent }}>
+        <span
+          className="text-sm font-semibold flex-1"
+          style={{ color: goal.accent }}
+        >
           {goal.label}
         </span>
+        <button
+          onClick={handleToggle}
+          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg z-10"
+          style={{
+            background: "rgba(255,255,255,0.1)",
+            color: "rgba(248,244,238,0.6)",
+          }}
+        >
+          Preview
+        </button>
         <ArrowRight
-          className="w-3.5 h-3.5 ml-auto"
+          className="w-3.5 h-3.5 flex-shrink-0"
           style={{ color: goal.accent }}
         />
       </div>
 
-      {/* Expanded content */}
       <div
         className="absolute bottom-0 left-0 right-0 p-5"
         style={{
@@ -291,6 +303,7 @@ export default function Plans() {
                   setHoveredGoal(goal.key);
                 }}
                 onMouseLeave={() => setHoveredGoal(null)}
+                onClick={() => navigate(`/plans/goal/${goal.key}`)}
               >
                 {/* Background image */}
                 <div
@@ -407,7 +420,10 @@ export default function Plans() {
                   )}
 
                   <button
-                    onClick={() => navigate(`/plans/goal/${goal.key}`)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/plans/goal/${goal.key}`);
+                    }}
                     className="flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg transition-all"
                     style={{ background: goal.accent, color: "#1a1a1a" }}
                   >
@@ -438,7 +454,7 @@ export default function Plans() {
               <h2 className="text-3xl font-bold text-[#f8f4ee]">My Plans</h2>
             </div>
             <button
-              onClick={() => navigate(`/plans/${user.username}`)}
+              onClick={() => navigate("/plans/myplans")}
               className="text-sm text-white/35 hover:text-white/70 transition-colors cursor-pointer hover:text-white"
             >
               View all →
