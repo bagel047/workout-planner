@@ -191,15 +191,23 @@ export default function Plans() {
   const [myPlansLoading, setMyPlansLoading] = useState(false);
   const [hoveredPlan, setHoveredPlan] = useState(null);
 
-  const fetchGoalPlans = async (goalKey) => {
-    if (goalPlans[goalKey]) return;
-    try {
-      const res = await axiosInstance.get(
-        `/plans?goal=${goalKey}&pageNum=0&pageSize=2`,
+  useEffect(() => {
+    const prefetch = async () => {
+      const results = {};
+      await Promise.all(
+        GOALS.map(async (goal) => {
+          try {
+            const res = await axiosInstance.get(
+              `/plans?goal=${goal.key}&pageNum=0&pageSize=2`,
+            );
+            results[goal.key] = res.data.content;
+          } catch {}
+        }),
       );
-      setGoalPlans((prev) => ({ ...prev, [goalKey]: res.data.content }));
-    } catch {}
-  };
+      setGoalPlans(results);
+    };
+    prefetch();
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -281,7 +289,6 @@ export default function Plans() {
                 }}
                 onMouseEnter={() => {
                   setHoveredGoal(goal.key);
-                  fetchGoalPlans(goal.key);
                 }}
                 onMouseLeave={() => setHoveredGoal(null)}
               >
@@ -416,12 +423,7 @@ export default function Plans() {
       {/* Accordion mobile vertical */}
       <div className="lg:hidden px-6 max-w-7xl mx-auto pb-28 flex flex-col gap-3">
         {GOALS.map((goal) => (
-          <MobileGoalCard
-            key={goal.key}
-            goal={goal}
-            goalPlans={goalPlans}
-            fetchGoalPlans={fetchGoalPlans}
-          />
+          <MobileGoalCard key={goal.key} goal={goal} goalPlans={goalPlans} />
         ))}
       </div>
 

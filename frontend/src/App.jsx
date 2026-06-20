@@ -14,6 +14,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Exercises from "./pages/Exercises";
 import Plans from "./pages/Plans";
+import CreatePlan from "./pages/CreatePlan";
+import PlanDetails from "./pages/PlanDetails";
 import UserPlans from "./pages/UserPlans";
 import GoalPlans from "./pages/GoalPlans";
 import CreateExercise from "./pages/CreateExercise";
@@ -42,6 +44,15 @@ function App() {
             <Route path="/oauth2/callback" element={<OAuth2Callback />} />
             <Route path="/exercises" element={<Exercises />} />
             <Route path="/plans" element={<Plans />} />
+            <Route
+              path="/plans/new"
+              element={
+                <ProtectedRoute>
+                  <CreatePlan />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/plans/:id" element={<PlanDetails />} />
             <Route
               path="/sessions"
               element={

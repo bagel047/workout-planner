@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
       // decode JWT payload to get user info
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
-        setUser({ username: payload.sub });
+        console.log("JWT payload:", payload);
+        setUser({ username: payload.sub, id: payload.userId });
       } catch {
         setToken(null);
         localStorage.removeItem("token");

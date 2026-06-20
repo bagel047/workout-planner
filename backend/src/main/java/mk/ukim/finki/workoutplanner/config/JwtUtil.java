@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import mk.ukim.finki.workoutplanner.model.entity.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -22,8 +23,10 @@ public class JwtUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
+        User user = (User) userDetails;
         return Jwts.builder()
                 .subject(userDetails.getUsername())
+                .claim("userId", user.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
