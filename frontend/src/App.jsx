@@ -19,6 +19,9 @@ import PlanDetails from "./pages/PlanDetails";
 import UserPlans from "./pages/UserPlans";
 import GoalPlans from "./pages/GoalPlans";
 import CreateExercise from "./pages/CreateExercise";
+import SessionLog from "#pages/SessionLog.jsx";
+import Sessions from "#pages/Sessions.jsx";
+import SessionDetails from "#pages/SessionDetails.jsx";
 import AiGenerate from "./pages/AiGenerate";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import Layout from "./components/Layout";
@@ -75,7 +78,23 @@ function App() {
               path="/sessions"
               element={
                 <ProtectedRoute>
-                  <div>Sessions page</div>
+                  <Sessions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sessions/log"
+              element={
+                <ProtectedRoute>
+                  <SessionLog />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sessions/:id"
+              element={
+                <ProtectedRoute>
+                  <SessionDetails />
                 </ProtectedRoute>
               }
             />
