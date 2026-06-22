@@ -133,6 +133,12 @@ export default function Header() {
             >
               Sessions
             </Link>
+            <Link
+              to="/progress"
+              className="text-sm font-medium hover:opacity-80 transition-colors"
+            >
+              Progress
+            </Link>
             <Link to="/generate">
               <Button
                 size="sm"
@@ -245,6 +251,13 @@ export default function Header() {
                     onClick={() => setMobileOpen(false)}
                   >
                     Sessions
+                  </Link>
+                  <Link
+                    to="/progress"
+                    className="block rounded-lg px-3 py-2 text-base font-medium hover:opacity-70 transition-opacity"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Progress
                   </Link>
                   <Link
                     to="/generate"

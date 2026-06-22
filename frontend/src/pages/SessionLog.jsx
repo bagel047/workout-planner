@@ -432,15 +432,14 @@ function ExerciseBlock({ entry, onUpdate, onRemove }) {
 
       {!collapsed && (
         <div className="px-4 pb-4 flex flex-col gap-2">
-          {planned && (
-            <div className="flex gap-2 text-[10px] text-white/30 mb-1 pl-5">
-              <span className="w-5" />
-              {planned && <span className="min-w-[80px]">Planned</span>}
-              <span className="w-16 text-center">Reps</span>
-              <span className="w-16 text-center">Weight</span>
-              <span>RPE (1-10)</span>
-            </div>
-          )}
+          <div className="flex gap-2 text-[10px] text-white/30 mb-1 pl-5">
+            <span className="w-5" />
+            {entry.plannedSets && <span className="min-w-[80px]">Planned</span>}
+            <span className="w-16 text-center">Reps</span>
+            <span className="w-16 text-center">Weight</span>
+            <span>RPE (1-10)</span>
+          </div>
+
           {entry.sets.map((set, i) => (
             <SetRow
               key={set.tempId}

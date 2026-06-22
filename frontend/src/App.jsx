@@ -23,6 +23,8 @@ import SessionLog from "#pages/SessionLog.jsx";
 import Sessions from "#pages/Sessions.jsx";
 import SessionDetails from "#pages/SessionDetails.jsx";
 import AiGenerate from "./pages/AiGenerate";
+import Profile from "./pages/Profile";
+import Progress from "./pages/Progress";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import Layout from "./components/Layout";
 
@@ -103,6 +105,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AiGenerate />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/progress"
+              element={
+                <ProtectedRoute>
+                  <Progress />
                 </ProtectedRoute>
               }
             />
