@@ -9,11 +9,19 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (token) {
-      // decode JWT payload to get user info
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
         console.log("JWT payload:", payload);
-        setUser({ username: payload.sub, id: payload.userId });
+        if (payload.sub || payload.userId) {
+          setUser({
+            username: payload.sub || payload.email || "user",
+            id: payload.userId,
+          });
+        } else {
+          // invalid token
+          setToken(null);
+          localStorage.removeItem("token");
+        }
       } catch {
         setToken(null);
         localStorage.removeItem("token");

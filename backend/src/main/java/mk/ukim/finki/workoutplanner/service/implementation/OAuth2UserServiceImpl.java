@@ -56,11 +56,21 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
     private User createOAuth2User(AuthProvider provider, String providerId,
                                   String email, String displayName, String avatarUrl) {
+
+        String baseUsername = email != null ? email.split("@")[0] : providerId;
+        String username = baseUsername;
+
+        int suffix = 1;
+        while (userRepository.existsByUsername(username)) {
+            username = baseUsername + suffix++;
+        }
+
         User user = User.builder()
                 .provider(provider)
                 .providerId(providerId)
                 .email(email)
-                .displayName(displayName)
+                .username(username)
+                .displayName(displayName != null ? displayName : username)
                 .avatarUrl(avatarUrl)
                 .role(Role.ROLE_USER)
                 .build();
