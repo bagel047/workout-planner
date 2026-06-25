@@ -27,6 +27,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("userId", user.getId())
+                .claim("avatarUrl", user.getAvatarUrl())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)

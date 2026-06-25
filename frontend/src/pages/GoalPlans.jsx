@@ -53,6 +53,7 @@ const GOAL_META = {
   },
 };
 
+const ACTIVE = "#c8f135";
 const LEVELS = ["ALL", "BEGINNER", "INTERMEDIATE", "ADVANCED"];
 
 export default function GoalPlans() {
@@ -132,7 +133,7 @@ export default function GoalPlans() {
         <div className="relative z-10 h-full flex flex-col justify-between px-6 lg:px-24 max-w-7xl mx-auto pt-28 pb-8">
           <button
             onClick={() => navigate("/plans")}
-            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors w-fit"
+            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors w-fit cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> All goals
           </button>
@@ -152,16 +153,20 @@ export default function GoalPlans() {
                 {meta.tagline}
               </h1>
             </div>
-            {user && (
-              <Button
-                onClick={() => navigate("/generate")}
-                size="sm"
-                className="gap-2 hidden lg:flex"
-                style={{ background: meta.accent, color: "#1a1a1a" }}
-              >
-                <Sparkles className="w-3.5 h-3.5" /> Generate with AI
-              </Button>
-            )}
+
+            <Button
+              onClick={() => navigate("/generate")}
+              size="sm"
+              variant="secondary"
+              className="gap-2 cursor-pointer hover:opacity-80 text-base"
+              style={{
+                background: ACTIVE,
+                color: "#1a1a1a",
+              }}
+            >
+              <Sparkles className="w-3 h-3" />
+              Generate with AI
+            </Button>
           </div>
         </div>
       </div>

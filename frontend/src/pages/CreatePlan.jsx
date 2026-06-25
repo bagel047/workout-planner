@@ -43,7 +43,7 @@ function SelectButton({ label, selected, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer hover:opacity-90"
       style={{
         background: selected ? `${ACTIVE}10` : "rgba(255,255,255,0.04)",
         border: selected
@@ -142,7 +142,7 @@ function ExercisePickerModal({ onSelect, onClose }) {
           </h3>
           <button
             onClick={onClose}
-            className="text-white/30 hover:text-white/70 transition-colors"
+            className="text-white/30 hover:text-white/70 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -166,7 +166,7 @@ function ExercisePickerModal({ onSelect, onClose }) {
               <button
                 key={mg}
                 onClick={() => setMuscleGroup(mg)}
-                className="text-[10px] px-2.5 py-1 rounded-full transition-all"
+                className="text-[10px] px-2.5 py-1 rounded-full transition-all cursor-pointer hover:opacity-90"
                 style={{
                   background:
                     muscleGroup === mg
@@ -389,7 +389,7 @@ function DayCard({ day, dayIndex, onUpdate, onRemove, onAddExercise }) {
           <button
             type="button"
             onClick={() => onAddExercise(day.tempId)}
-            className="flex items-center gap-2 text-xs px-4 py-2.5 rounded-xl transition-all w-full justify-center"
+            className="flex items-center gap-2 text-xs px-4 py-2.5 rounded-xl transition-all w-full justify-center cursor-pointer hover:opacity-90"
             style={{
               background: "rgba(255,255,255,0.03)",
               border: "0.5px dashed rgba(255,255,255,0.12)",
@@ -536,7 +536,7 @@ export default function CreatePlan() {
           {/* Back */}
           <button
             onClick={() => navigate("/plans")}
-            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10"
+            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Back to plans
           </button>
@@ -675,7 +675,7 @@ export default function CreatePlan() {
                   <button
                     type="button"
                     onClick={addDay}
-                    className="flex items-center justify-center gap-2 text-sm py-4 rounded-2xl transition-all"
+                    className="flex items-center justify-center gap-2 text-sm py-4 rounded-2xl transition-all cursor-pointer hover:opacity-90"
                     style={{
                       background: "rgba(255,255,255,0.02)",
                       border: "0.5px dashed rgba(255,255,255,0.1)",

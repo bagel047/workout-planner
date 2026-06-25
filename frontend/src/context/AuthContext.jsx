@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
           setUser({
             username: payload.sub || payload.email || "user",
             id: payload.userId,
+            avatarUrl: payload.avatarUrl || null,
           });
         } else {
           // invalid token

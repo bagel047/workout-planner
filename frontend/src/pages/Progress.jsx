@@ -381,7 +381,7 @@ export default function Progress() {
                 <div className="relative">
                   <button
                     onClick={() => setShowPlanDropdown((d) => !d)}
-                    className="flex items-center gap-2 text-xs px-3 py-2 rounded-lg transition-all"
+                    className="flex items-center gap-2 text-xs px-3 py-2 rounded-lg transition-all cursor-pointer hover:opacity-90"
                     style={{
                       background: "rgba(255,255,255,0.06)",
                       border: "0.5px solid rgba(255,255,255,0.1)",
@@ -411,7 +411,7 @@ export default function Progress() {
                               setSelectedPlan(p);
                               setShowPlanDropdown(false);
                             }}
-                            className="w-full text-left px-4 py-3 text-xs hover:bg-white/[0.06] transition-colors"
+                            className="w-full text-left px-4 py-3 text-xs hover:bg-white/[0.06] transition-colors cursor-pointer hover:opacity-90"
                             style={{
                               color:
                                 selectedPlan?.id === p.id

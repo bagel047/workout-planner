@@ -28,15 +28,6 @@ export const muscleGroupImages = {
   FULL_BODY: fullBodyImg,
 };
 
-// export const goalImages = {
-//   MUSCLE_GAIN: muscleImg,
-//   FAT_LOSS: fatLossImg,
-//   STRENGTH: strengthImg,
-//   ENDURANCE: enduranceImg,
-//   FLEXIBILITY: flexibilityImg,
-//   GENERAL_FITNESS: generalImg,
-// };
-
 export default function Exercise({ exercise }) {
   const { user } = useAuth();
 
@@ -62,7 +53,7 @@ export default function Exercise({ exercise }) {
 
   const levelColor = (level) => {
     if (level === "BEGINNER") return "text-green-400";
-    if (level === "INTERMEDIATE") return "text-yellow-400";
+    if (level === "INTERMEDIATE") return "text-yellow-200";
     if (level === "ADVANCED") return "text-red-400";
     return "text-white/40";
   };
@@ -79,7 +70,7 @@ export default function Exercise({ exercise }) {
       className="rounded-sm overflow-hidden cursor-pointer hover:bg-white/[0.07] hover:border-white/20 transition-all group"
     >
       {/* Image placeholder — muscle group icon */}
-      <div className="relative h-28 bg-white/[0.03] flex items-center justify-center overflow-hidden">
+      <div className="relative h-72 bg-white/[0.03] flex items-center justify-center overflow-hidden">
         <img
           className="absolute w-full h-full object-cover"
           src={muscleGroupImages[exercise.muscleGroup]}

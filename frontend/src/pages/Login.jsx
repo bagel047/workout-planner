@@ -106,15 +106,6 @@ export default function Login() {
               />
               Continue with Google
             </Button>
-            <Button
-              variant="outline"
-              className="w-full bg-inherit hover:text-primary"
-              onClick={() =>
-                (window.location.href = "/oauth2/authorization/github")
-              }
-            >
-              Continue with GitHub
-            </Button>
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-4">

@@ -143,7 +143,8 @@ function ExercisePickerModal({ onSelect, onClose }) {
                 <button
                   key={ex.id}
                   onClick={() => onSelect(ex)}
-                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all hover:bg-white/[0.06] group"
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all hover:bg-white/[0.06] group
+                  "
                 >
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -228,7 +229,7 @@ function PlanDayPickerModal({ onSelect, onClose }) {
                   onClick={() =>
                     setExpandedPlan(expandedPlan === plan.id ? null : plan.id)
                   }
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:bg-white/[0.06]"
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:bg-white/[0.06] cursor-pointer"
                   style={{ border: "0.5px solid rgba(255,255,255,0.07)" }}
                 >
                   <div className="text-left">
@@ -251,7 +252,7 @@ function PlanDayPickerModal({ onSelect, onClose }) {
                       <button
                         key={day.id}
                         onClick={() => onSelect(plan, day)}
-                        className="flex items-center justify-between px-4 py-2.5 rounded-lg transition-all hover:bg-white/[0.08] text-left"
+                        className="flex items-center justify-between px-4 py-2.5 rounded-lg transition-all hover:bg-white/[0.08] text-left cursor-pointer hover:opacity-90"
                         style={{
                           border: "0.5px solid rgba(255,255,255,0.06)",
                           background: "rgba(255,255,255,0.03)",
@@ -453,7 +454,7 @@ function ExerciseBlock({ entry, onUpdate, onRemove }) {
           <button
             type="button"
             onClick={addSet}
-            className="flex items-center gap-2 text-xs py-2 rounded-lg transition-all mt-1 justify-center"
+            className="flex items-center gap-2 text-xs py-2 rounded-lg transition-all mt-1 justify-center cursor-pointer hover:opacity-90"
             style={{
               background: "rgba(255,255,255,0.03)",
               border: "0.5px dashed rgba(255,255,255,0.1)",
@@ -595,7 +596,7 @@ export default function SessionLog() {
         <div className="max-w-lg mx-auto">
           <button
             onClick={() => navigate("/sessions")}
-            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10"
+            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
@@ -615,7 +616,7 @@ export default function SessionLog() {
               onClick={() => {
                 setShowPlanPicker(true);
               }}
-              className="flex items-start gap-4 p-6 rounded-2xl text-left transition-all group"
+              className="flex items-start gap-4 p-6 rounded-2xl text-left transition-all group cursor-pointer hover:opacity-90"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 border: "0.5px solid rgba(255,255,255,0.1)",
@@ -642,7 +643,7 @@ export default function SessionLog() {
             </button>
             <button
               onClick={() => setMode("free")}
-              className="flex items-start gap-4 p-6 rounded-2xl text-left transition-all group"
+              className="flex items-start gap-4 p-6 rounded-2xl text-left transition-all group cursor-pointer hover:opacity-90"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 border: "0.5px solid rgba(255,255,255,0.1)",
@@ -692,7 +693,7 @@ export default function SessionLog() {
         <div className="max-w-2xl mx-auto">
           <button
             onClick={() => setMode(null)}
-            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10"
+            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Change mode
           </button>
@@ -770,7 +771,7 @@ export default function SessionLog() {
                 <button
                   type="button"
                   onClick={() => setShowExercisePicker(true)}
-                  className="flex items-center justify-center gap-2 text-sm py-4 rounded-2xl transition-all"
+                  className="flex items-center justify-center gap-2 text-sm py-4 rounded-2xl transition-all cursor-pointer hover:opacity-90"
                   style={{
                     background: "rgba(255,255,255,0.02)",
                     border: "0.5px dashed rgba(255,255,255,0.1)",
@@ -807,7 +808,7 @@ export default function SessionLog() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="gap-2 px-8"
+                className="gap-2 px-8 cursor-pointer hover:opacity-90"
                 style={{
                   background: loading ? `${ACTIVE}60` : ACTIVE,
                   color: "#1a1a1a",
@@ -826,7 +827,7 @@ export default function SessionLog() {
                 type="button"
                 variant="outline"
                 onClick={() => navigate("/sessions")}
-                className="border-white/15 text-white/50 hover:bg-white/5 bg-transparent"
+                className="border-white/15 text-white/50 hover:bg-white/5 bg-transparent cursor-pointer"
               >
                 Cancel
               </Button>

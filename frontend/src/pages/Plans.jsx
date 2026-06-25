@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import axiosInstance from "../api/axiosInstance";
@@ -71,17 +71,10 @@ const GOALS = [
   },
 ];
 
-// Mobile vertical card
-function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
+function MobileGoalCard({ goal, goalPlans }) {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const plans = goalPlans[goal.key] || [];
-
-  const handleToggle = (e) => {
-    e.stopPropagation();
-    if (!expanded) fetchGoalPlans(goal.key);
-    setExpanded((e) => !e);
-  };
 
   return (
     <div
@@ -104,7 +97,6 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
             : "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%)",
         }}
       />
-
       <div
         className="absolute inset-0 flex items-center px-5 gap-3"
         style={{ opacity: expanded ? 0 : 1, transition: "opacity 0.2s ease" }}
@@ -116,7 +108,10 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
           {goal.label}
         </span>
         <button
-          onClick={handleToggle}
+          onClick={(e) => {
+            e.stopPropagation();
+            setExpanded((v) => !v);
+          }}
           className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg z-10"
           style={{
             background: "rgba(255,255,255,0.1)",
@@ -130,7 +125,6 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
           style={{ color: goal.accent }}
         />
       </div>
-
       <div
         className="absolute bottom-0 left-0 right-0 p-5"
         style={{
@@ -194,29 +188,239 @@ function MobileGoalCard({ goal, goalPlans, fetchGoalPlans }) {
   );
 }
 
+function DesktopAccordion({
+  goals,
+  goalPlans,
+  hoveredPlan,
+  onPlanHover,
+  onPlanLeave,
+}) {
+  const navigate = useNavigate();
+  const [active, setActive] = useState(null);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        height: "520px",
+        display: "flex",
+        gap: "8px",
+        contentVisibility: "auto",
+      }}
+      onMouseLeave={() => setActive(null)}
+    >
+      {goals.map((goal, i) => {
+        const isActive = active === goal.key;
+        const hasActive = active !== null;
+        const plans = goalPlans[goal.key] || [];
+
+        return (
+          <div
+            key={goal.key}
+            onMouseEnter={() => setActive(goal.key)}
+            onClick={() => navigate(`/plans/goal/${goal.key}`)}
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              cursor: "pointer",
+              borderRadius: "6px",
+              flex: isActive ? "3.5" : hasActive ? "0.35" : "1",
+              minWidth: 0,
+              transition: "flex 380ms cubic-bezier(0.4,0,0.2,1)",
+              willChange: "flex",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `url(${goal.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                transform: isActive ? "scale(1.04)" : "scale(1)",
+                transition: "transform 400ms ease",
+                willChange: "transform",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "rgba(0,0,0,0.55)",
+                opacity: isActive ? 0.5 : 1,
+                transition: "opacity 240ms ease",
+                willChange: "opacity",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "180px",
+                background: `linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)`,
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "100px",
+                background: `linear-gradient(to top, ${goal.accent}30 0%, transparent 100%)`,
+                pointerEvents: "none",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                padding: "20px",
+                opacity: isActive ? 0 : 1,
+                transition: "opacity 160ms ease",
+                pointerEvents: "none",
+                willChange: "opacity",
+              }}
+            >
+              <span
+                style={{
+                  color: goal.accent,
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                  writingMode: "vertical-rl",
+                  textOrientation: "mixed",
+                  transform: "rotate(180deg)",
+                  letterSpacing: "0.08em",
+                  fontSize: "13px",
+                  display: "block",
+                }}
+              >
+                {goal.label}
+              </span>
+            </div>
+
+            {/* Expanded content */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: "28px",
+                opacity: isActive ? 1 : 0,
+                transform: isActive ? "translateY(0)" : "translateY(12px)",
+                transition: isActive
+                  ? "opacity 260ms ease 120ms, transform 260ms ease 120ms"
+                  : "opacity 150ms ease, transform 150ms ease",
+                pointerEvents: isActive ? "auto" : "none",
+                willChange: "opacity, transform",
+              }}
+            >
+              <span
+                className="inline-block text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-4"
+                style={{
+                  background: `${goal.accent}25`,
+                  color: goal.accent,
+                  border: `0.5px solid ${goal.accent}40`,
+                }}
+              >
+                {goal.label}
+              </span>
+              <h3 className="text-[#f8f4ee] text-2xl font-bold mb-3 leading-snug whitespace-pre-line">
+                {goal.tagline}
+              </h3>
+              <p className="text-white/50 text-xs leading-relaxed mb-5 max-w-xs">
+                {goal.description}
+              </p>
+
+              {plans.length > 0 && (
+                <div className="flex flex-col gap-2 mb-5">
+                  {plans.map((plan) => (
+                    <div
+                      key={plan.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/plans/${plan.id}`);
+                      }}
+                      onMouseEnter={() => onPlanHover(`preview-${plan.id}`)}
+                      onMouseLeave={onPlanLeave}
+                      className="flex justify-between items-center rounded-lg px-3 py-2.5 cursor-pointer"
+                      style={{
+                        background:
+                          hoveredPlan === `preview-${plan.id}`
+                            ? "rgba(255,255,255,0.14)"
+                            : "rgba(255,255,255,0.07)",
+                        border:
+                          hoveredPlan === `preview-${plan.id}`
+                            ? `0.5px solid ${goal.accent}60`
+                            : "0.5px solid rgba(255,255,255,0.12)",
+                        transition:
+                          "background 120ms ease, border-color 120ms ease",
+                      }}
+                    >
+                      <span className="text-[#f8f4ee] text-xs font-medium">
+                        {plan.name}
+                      </span>
+                      <span className="text-white/35 text-[10px]">
+                        {plan.daysPerWeek}d/wk
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/plans/goal/${goal.key}`);
+                }}
+                className="flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg cursor-pointer hover:opacity-90"
+                style={{ background: goal.accent, color: "#1a1a1a" }}
+              >
+                View all plans <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Plans() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [hoveredGoal, setHoveredGoal] = useState(null);
   const [goalPlans, setGoalPlans] = useState({});
   const [myPlans, setMyPlans] = useState([]);
   const [myPlansLoading, setMyPlansLoading] = useState(false);
   const [hoveredPlan, setHoveredPlan] = useState(null);
+  const ACTIVE = "#c8f135";
+
+  useEffect(() => {
+    GOALS.forEach((goal) => {
+      const img = new Image();
+      img.src = goal.image;
+    });
+  }, []);
 
   useEffect(() => {
     const prefetch = async () => {
-      const results = {};
-      await Promise.all(
-        GOALS.map(async (goal) => {
-          try {
-            const res = await axiosInstance.get(
-              `/plans?goal=${goal.key}&pageNum=0&pageSize=2`,
-            );
-            results[goal.key] = res.data.content;
-          } catch {}
-        }),
-      );
-      setGoalPlans(results);
+      for (const goal of GOALS) {
+        try {
+          const res = await axiosInstance.get(
+            `/plans?goal=${goal.key}&pageNum=0&pageSize=2`,
+          );
+          setGoalPlans((prev) => ({ ...prev, [goal.key]: res.data.content }));
+        } catch {}
+        await new Promise((r) => setTimeout(r, 100));
+      }
     };
     prefetch();
   }, []);
@@ -239,9 +443,11 @@ export default function Plans() {
     fetchMyPlans();
   }, [user]);
 
+  const handlePlanHover = useCallback((id) => setHoveredPlan(id), []);
+  const handlePlanLeave = useCallback(() => setHoveredPlan(null), []);
+
   return (
     <div className="min-h-screen bg-zinc-950">
-      {/* Header */}
       <div className="pt-36 pb-20 px-6 lg:px-24 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <div>
@@ -258,12 +464,12 @@ export default function Plans() {
               tailored specifically to you.
             </p>
           </div>
-
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
             <Button
               onClick={() => navigate("/generate")}
-              className="gap-2"
-              style={{ background: "#c8a97e", color: "#1a1a1a" }}
+              variant="secondary"
+              className="gap-2 cursor-pointer hover:opacity-80 text-base"
+              style={{ background: ACTIVE, color: "#1a1a1a" }}
             >
               <Sparkles className="w-4 h-4" />
               Generate with AI
@@ -271,7 +477,7 @@ export default function Plans() {
             <Button
               onClick={() => navigate("/plans/new")}
               variant="outline"
-              className="gap-2 border-white/20 text-white/60 hover:bg-white/8 hover:text-white bg-transparent"
+              className="h-10 gap-2 border-white/20 text-white/60 hover:bg-white/8 hover:text-white bg-transparent cursor-pointer text-base"
             >
               <Plus className="w-4 h-4" />
               Create plan
@@ -282,158 +488,13 @@ export default function Plans() {
 
       {/* Accordion Desktop */}
       <div className="hidden lg:block px-6 lg:px-24 max-w-7xl mx-auto pb-28">
-        <div
-          className="flex gap-2 rounded-md overflow-hidden"
-          style={{ height: "520px" }}
-        >
-          {GOALS.map((goal) => {
-            const isHovered = hoveredGoal === goal.key;
-            const plans = goalPlans[goal.key] || [];
-
-            return (
-              <div
-                key={goal.key}
-                className="relative overflow-hidden cursor-pointer rounded-md"
-                style={{
-                  flex: isHovered ? "3.5" : hoveredGoal ? "0.35" : "1",
-                  transition: "flex 0.55s cubic-bezier(0.4,0,0.2,1)",
-                  minWidth: "48px",
-                }}
-                onMouseEnter={() => {
-                  setHoveredGoal(goal.key);
-                }}
-                onMouseLeave={() => setHoveredGoal(null)}
-                onClick={() => navigate(`/plans/goal/${goal.key}`)}
-              >
-                {/* Background image */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${goal.image})`,
-                    transform: isHovered ? "scale(1.02)" : "scale(1.0)",
-                    transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                />
-
-                {/* Overlay */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: isHovered
-                      ? "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.2) 100%)"
-                      : "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.5) 100%)",
-                    transition: "background 0.4s ease",
-                  }}
-                />
-
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-32"
-                  style={{
-                    background: `linear-gradient(to top, ${goal.accent}22 0%, transparent 100%)`,
-                  }}
-                />
-
-                <div
-                  className="absolute bottom-0 left-0 p-5"
-                  style={{
-                    opacity: isHovered ? 0 : 1,
-                    transition: "opacity 0.2s ease",
-                  }}
-                >
-                  <span
-                    className="font-semibold whitespace-nowrap"
-                    style={{
-                      color: goal.accent,
-                      writingMode: "vertical-rl",
-                      textOrientation: "mixed",
-                      transform: "rotate(180deg)",
-                      letterSpacing: "0.08em",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {goal.label}
-                  </span>
-                </div>
-
-                {/* Expanded content */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 p-7"
-                  style={{
-                    opacity: isHovered ? 1 : 0,
-                    transform: isHovered ? "translateY(0)" : "translateY(16px)",
-                    transition:
-                      "opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s",
-                    pointerEvents: isHovered ? "auto" : "none",
-                  }}
-                >
-                  <span
-                    className="inline-block text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-4"
-                    style={{
-                      background: `${goal.accent}25`,
-                      color: goal.accent,
-                      border: `0.5px solid ${goal.accent}40`,
-                    }}
-                  >
-                    {goal.label}
-                  </span>
-                  <h3 className="text-[#f8f4ee] text-2xl font-bold mb-3 leading-snug whitespace-pre-line">
-                    {goal.tagline}
-                  </h3>
-                  <p className="text-white/50 text-xs leading-relaxed mb-5 max-w-xs">
-                    {goal.description}
-                  </p>
-
-                  {plans.length > 0 && (
-                    <div className="flex flex-col gap-2 mb-5">
-                      {plans.map((plan) => (
-                        <div
-                          key={plan.id}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/plans/${plan.id}`);
-                          }}
-                          onMouseEnter={() =>
-                            setHoveredPlan(`preview-${plan.id}`)
-                          }
-                          onMouseLeave={() => setHoveredPlan(null)}
-                          className="flex justify-between items-center rounded-lg px-3 py-2.5 cursor-pointer transition-all"
-                          style={{
-                            background:
-                              hoveredPlan === `preview-${plan.id}`
-                                ? "rgba(255,255,255,0.14)"
-                                : "rgba(255,255,255,0.07)",
-                            border:
-                              hoveredPlan === `preview-${plan.id}`
-                                ? `0.5px solid ${goal.accent}60`
-                                : "0.5px solid rgba(255,255,255,0.12)",
-                          }}
-                        >
-                          <span className="text-[#f8f4ee] text-xs font-medium">
-                            {plan.name}
-                          </span>
-                          <span className="text-white/35 text-[10px]">
-                            {plan.daysPerWeek}d/wk
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/plans/goal/${goal.key}`);
-                    }}
-                    className="flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg transition-all"
-                    style={{ background: goal.accent, color: "#1a1a1a" }}
-                  >
-                    View all plans <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <DesktopAccordion
+          goals={GOALS}
+          goalPlans={goalPlans}
+          hoveredPlan={hoveredPlan}
+          onPlanHover={handlePlanHover}
+          onPlanLeave={handlePlanLeave}
+        />
       </div>
 
       {/* Accordion mobile vertical */}
@@ -471,12 +532,13 @@ export default function Plans() {
               <p className="text-white/30 text-sm">
                 You haven't created any plans yet
               </p>
-              <div className="flex gap-3">
+              <div className="flex gap-3 items-center">
                 <Button
                   onClick={() => navigate("/generate")}
                   size="sm"
-                  className="gap-2"
-                  style={{ background: "#c8a97e", color: "#1a1a1a" }}
+                  variant="secondary"
+                  className="gap-2 cursor-pointer hover:opacity-80 text-base"
+                  style={{ background: ACTIVE, color: "#1a1a1a" }}
                 >
                   <Sparkles className="w-3 h-3" />
                   Generate with AI
@@ -485,9 +547,9 @@ export default function Plans() {
                   onClick={() => navigate("/plans/new")}
                   size="sm"
                   variant="outline"
-                  className="border-white/15 text-white/50 hover:bg-white/5 bg-transparent"
+                  className="h-8 border-white/15 text-white/50 hover:bg-white/5 bg-transparent cursor-pointer text-base"
                 >
-                  Create manually
+                  Create yours
                 </Button>
               </div>
             </div>

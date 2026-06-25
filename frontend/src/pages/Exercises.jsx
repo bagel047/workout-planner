@@ -106,7 +106,9 @@ export default function Exercises() {
           <div className="relative z-10">
             <Button
               onClick={() => navigate("/exercises/new")}
-              className="gap-2 bg-[#f8f4ee] text-[#252525] hover:bg-[#e4ddcc]"
+              size="lg"
+              variant="secondary"
+              className="gap-2 cursor-pointer hover:opacity-80"
             >
               <Plus className="w-4 h-4" />
               Add exercise

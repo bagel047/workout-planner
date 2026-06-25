@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import logo_white from "../assets/white_logo_resized_cropped.png";
-import logo_black from "../assets/black_logo_resized_cropped.png";
+import logo_white from "../assets/logo_white.png";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -27,47 +26,13 @@ import {
   LogOut,
 } from "lucide-react";
 
-const features = [
-  {
-    name: "Exercise Library",
-    description:
-      "Browse 25+ exercises across all muscle groups or create your own",
-    icon: Dumbbell,
-    href: "/exercises",
-  },
-  {
-    name: "Workout Plans",
-    description: "Build structured workout plans with days and exercises",
-    icon: ClipboardList,
-    href: "/plans",
-  },
-  {
-    name: "AI Plan Generation",
-    description: "Tell us your goals and let AI build the perfect plan for you",
-    icon: Sparkles,
-    href: "/generate",
-  },
-  {
-    name: "Progress Tracking",
-    description: "Log sessions and compare your performance against your plan",
-    icon: BarChart2,
-    href: "/sessions",
-  },
-];
-
-const callsToAction = [
-  { name: "See how it works", icon: PlayCircle, href: "#how-it-works" },
-];
-
 export default function Header() {
-  const [flyoutOpen, setFlyoutOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
   const lightHeaderRoutes = [];
-  const isLightPage = !lightHeaderRoutes.includes(location.pathname);
 
   const handleLogout = () => {
     logout();
@@ -84,7 +49,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full p-6 lg:px-8 z-90 ${isLightPage ? "text-white" : "text-primary"}`}
+      className={`fixed top-0 left-0 w-full p-6 lg:px-8 z-90`}
       style={{
         background: "linear-gradient(to bottom, rgba(0,0,0,0.7), transparent)",
       }}
@@ -93,11 +58,7 @@ export default function Header() {
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link to="/">
-            <img
-              className="w-12 h-6"
-              src={isLightPage ? logo_white : logo_black}
-              alt="Logo"
-            />
+            <img className="w-12 h-6" src={logo_white} alt="Logo" />
           </Link>
         </div>
 
@@ -160,12 +121,20 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 group group-hover:opacity-80 transition-opacity outline-none cursor-pointer">
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="text-xs bg-white/20">
-                      {user.username?.charAt(0).toUpperCase()}
-                    </AvatarFallback>
+                    {user?.avatarUrl ? (
+                      <img
+                        src={user.avatarUrl}
+                        alt="avatar"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <AvatarFallback className="text-xs bg-white/20">
+                        {user.username?.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <span className="text-sm font-medium">{user.username}</span>
-                  <ChevronDownIcon className="h-4 w-4 opacity-60" />
+                  <ChevronDownIcon className="h-4 w-4 opacity-60 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 z-99">

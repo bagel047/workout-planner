@@ -34,11 +34,6 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
             email = oAuth2User.getAttribute("email");
             displayName = oAuth2User.getAttribute("name");
             avatarUrl = oAuth2User.getAttribute("picture");
-        } else if (provider == AuthProvider.FACEBOOK) {
-            providerId = String.valueOf(oAuth2User.getAttribute("id"));
-            email = oAuth2User.getAttribute("email");
-            displayName = oAuth2User.getAttribute("name");
-            avatarUrl = "https://graph.facebook.com/" + providerId + "/picture?type=large";
         } else {
             throw new OAuth2AuthenticationException("Unsupported provider: " + registrationId);
         }

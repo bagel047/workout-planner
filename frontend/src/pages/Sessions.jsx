@@ -201,7 +201,7 @@ export default function Sessions() {
           </div>
           <Button
             onClick={() => navigate("/sessions/log")}
-            className="gap-2"
+            className="gap-2 cursor-pointer hover:opacity-90"
             style={{ background: ACTIVE, color: "#1a1a1a" }}
           >
             <Plus className="w-4 h-4" /> Log session
@@ -293,6 +293,7 @@ export default function Sessions() {
             <Calendar className="w-10 h-10 text-white/10" />
             <p className="text-white/30 text-sm">No sessions logged yet</p>
             <Button
+              className="cursor-pointer hover:opacity-90"
               onClick={() => navigate("/sessions/log")}
               size="sm"
               style={{ background: ACTIVE, color: "#1a1a1a" }}

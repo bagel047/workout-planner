@@ -57,7 +57,7 @@ function Field({
           onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")}
         />
       ) : (
-        <p className="text-[#f8f4ee] text-sm py-2.5 px-1">
+        <p className="text-[#f8f4ee] text-sm py-2.5 px-1 overflow-hidden text-ellipsis whitespace-nowrap">
           {value || <span className="text-white/25">Not set</span>}
         </p>
       )}
@@ -66,7 +66,6 @@ function Field({
 }
 
 export default function Profile() {
-  s;
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
@@ -282,7 +281,7 @@ export default function Profile() {
                     onClick={saveProfile}
                     disabled={savingProfile}
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 cursor-pointer hover:opacity-90"
                     style={{ background: ACTIVE, color: "#1a1a1a" }}
                   >
                     <Save className="w-3.5 h-3.5" />
@@ -298,7 +297,7 @@ export default function Profile() {
                     }}
                     size="sm"
                     variant="outline"
-                    className="border-white/15 text-white/50 bg-transparent"
+                    className="border-white/15 text-white/50 bg-transparent cursor-pointer hover:bg-transparent"
                   >
                     <X className="w-3.5 h-3.5" />
                     Cancel
@@ -307,7 +306,7 @@ export default function Profile() {
               ) : (
                 <button
                   onClick={() => setEditingProfile(true)}
-                  className="text-xs text-white/35 hover:text-white/60 transition-colors text-left mt-1 w-fit"
+                  className="text-xs text-white/35 hover:text-white/60 transition-colors text-left mt-1 w-fit cursor-pointer"
                 >
                   Edit profile →
                 </button>
@@ -365,7 +364,7 @@ export default function Profile() {
                       onClick={savePassword}
                       disabled={savingPassword}
                       size="sm"
-                      className="gap-2"
+                      className="gap-2 cursor-pointer hover:opacity-90"
                       style={{ background: ACTIVE, color: "#1a1a1a" }}
                     >
                       <Check className="w-3.5 h-3.5" />
@@ -383,7 +382,7 @@ export default function Profile() {
                       }}
                       size="sm"
                       variant="outline"
-                      className="border-white/15 text-white/50 bg-transparent"
+                      className="border-white/15 text-white/50 bg-transparent cursor-pointer hover:bg-transparent"
                     >
                       Cancel
                     </Button>
@@ -397,7 +396,7 @@ export default function Profile() {
                   </div>
                   <button
                     onClick={() => setEditingPassword(true)}
-                    className="text-xs text-white/35 hover:text-white/60 transition-colors"
+                    className="text-xs text-white/35 hover:text-white/60 transition-colors cursor-pointer"
                   >
                     Change →
                   </button>
@@ -410,7 +409,7 @@ export default function Profile() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all hover:bg-white/[0.05]"
+                className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all hover:bg-white/[0.05] cursor-pointer"
                 style={{ border: "0.5px solid rgba(255,255,255,0.08)" }}
               >
                 <div className="flex items-center gap-3">
@@ -421,7 +420,7 @@ export default function Profile() {
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(true)}
-                className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all hover:bg-red-500/10"
+                className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all hover:bg-red-500/10 cursor-pointer"
                 style={{ border: "0.5px solid rgba(239,68,68,0.2)" }}
               >
                 <div className="flex items-center gap-3">

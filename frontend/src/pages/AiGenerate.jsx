@@ -92,7 +92,7 @@ function SelectCard({ label, description, accent, selected, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="relative flex flex-col text-left p-4 rounded-xl transition-all"
+      className="relative flex flex-col text-left p-4 rounded-xl transition-all cursor-pointer hover:opacity-90"
       style={{
         background: selected
           ? `${accent || ACTIVE}12`
@@ -143,7 +143,7 @@ function EquipmentButton({ label, selected, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer hover:oapcity-90"
       style={{
         background: selected ? `${ACTIVE}10` : "rgba(255,255,255,0.04)",
         border: selected
@@ -230,7 +230,7 @@ export default function AiGenerate() {
       <div className="max-w-2xl mx-auto">
         <button
           onClick={() => navigate("/plans")}
-          className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10"
+          className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" /> Back to plans
         </button>
@@ -321,7 +321,7 @@ export default function AiGenerate() {
                   key={d}
                   type="button"
                   onClick={() => setForm({ ...form, daysPerWeek: d })}
-                  className="w-12 h-12 rounded-xl text-sm font-semibold transition-all"
+                  className="w-12 h-12 rounded-xl text-sm font-semibold transition-all cursor-pointer hover:opacity-90"
                   style={{
                     background:
                       form.daysPerWeek === d
@@ -394,7 +394,7 @@ export default function AiGenerate() {
             <Button
               type="submit"
               disabled={loading}
-              className="gap-2 px-8 h-12 text-base"
+              className="gap-2 px-8 h-12 text-base cursor-pointer hover:opacity-90"
               style={{
                 background: loading ? "rgba(200,241,53,0.5)" : ACTIVE,
                 color: "#1a1a1a",

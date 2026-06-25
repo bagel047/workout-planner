@@ -351,7 +351,7 @@ export default function SessionDetails() {
       <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate("/sessions")}
-          className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10"
+          className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors mb-10 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" /> Back to sessions
         </button>
@@ -676,14 +676,14 @@ export default function SessionDetails() {
               <div className="flex gap-3">
                 <Button
                   onClick={deleteSession}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white border-none"
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white border-none cursor-pointer"
                 >
                   Yes, delete
                 </Button>
                 <Button
                   onClick={() => setShowDeleteConfirm(false)}
                   variant="outline"
-                  className="flex-1 border-white/15 text-white/50 bg-transparent"
+                  className="flex-1 border-white/15 text-white/50 bg-transparent hover:bg-transparent cursor-pointer"
                 >
                   Cancel
                 </Button>

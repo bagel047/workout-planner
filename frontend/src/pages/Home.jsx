@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import bgImage from "../assets/testbg1.jpg";
+import bgImage from "../assets/bg.jpg";
 import bg2 from "../assets/2bg.jpg";
 import bg3 from "../assets/3bg.jpg";
 import img1 from "../assets/img1.png";
@@ -225,7 +225,11 @@ export default function Home() {
             ) : (
               <>
                 <Link to="/register">
-                  <Button size="lg" variant="secondary" className="gap-2">
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="gap-2 cursor-pointer hover:opacity-90"
+                  >
                     Get started free <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
@@ -233,7 +237,7 @@ export default function Home() {
                   <Button
                     size="lg"
                     variant="ghost"
-                    className="text-white/60 hover:text-white hover:bg-white/10"
+                    className="text-white/60 hover:text-white hover:bg-white/10 cursor-pointer"
                   >
                     Log in
                   </Button>
@@ -285,7 +289,11 @@ export default function Home() {
           )}
           {!user && (
             <Link to="/register">
-              <Button size="lg" variant="secondary" className="gap-2">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="gap-2 cursor-pointer hover:opacity-90"
+              >
                 Create free account <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

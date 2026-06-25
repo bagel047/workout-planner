@@ -15,6 +15,7 @@ import {
   X,
   Plus,
   Check,
+  Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -57,6 +58,162 @@ function StatPill({ label, value }) {
         {label}
       </span>
       <span className="text-[#f8f4ee] text-sm font-semibold">{value}</span>
+    </div>
+  );
+}
+
+function ExercisePickerModal({ onSelect, onClose }) {
+  const [exercises, setExercises] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [muscleGroup, setMuscleGroup] = useState("ALL");
+
+  const MUSCLE_GROUPS = [
+    "ALL",
+    "CHEST",
+    "BACK",
+    "SHOULDERS",
+    "BICEPS",
+    "TRICEPS",
+    "LEGS",
+    "GLUTES",
+    "HAMSTRINGS",
+    "QUADS",
+    "CORE",
+    "FULL_BODY",
+    "CARDIO",
+  ];
+
+  const fetchExercises = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      params.append("pageNum", 0);
+      params.append("pageSize", 50);
+      if (search) params.append("name", search);
+      if (muscleGroup !== "ALL") params.append("muscleGroup", muscleGroup);
+      const res = await axiosInstance.get(`/exercises?${params}`);
+      setExercises(res.data.content);
+    } catch {
+      toast.error("Failed to load exercises");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExercises();
+  }, [muscleGroup]);
+
+  useEffect(() => {
+    const t = setTimeout(fetchExercises, 350);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div
+        className="relative w-full max-w-lg rounded-2xl flex flex-col overflow-hidden"
+        style={{
+          background: "#1c1c1e",
+          border: "0.5px solid rgba(255,255,255,0.12)",
+          maxHeight: "80vh",
+        }}
+      >
+        <div className="flex items-center justify-between p-5 border-b border-white/[0.07]">
+          <h3 className="text-[#f8f4ee] font-semibold text-base">
+            Add exercise
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-white/30 hover:text-white/70 transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-4 border-b border-white/[0.07]">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search exercises..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-white/[0.06] border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-[#f8f4ee] placeholder:text-white/25 focus:outline-none focus:border-white/25"
+            />
+          </div>
+          <div className="flex gap-1.5 flex-wrap mt-3">
+            {MUSCLE_GROUPS.map((mg) => (
+              <button
+                key={mg}
+                onClick={() => setMuscleGroup(mg)}
+                className="text-[10px] px-2.5 py-1 rounded-full transition-all cursor-pointer hover:opacity-90"
+                style={{
+                  background:
+                    muscleGroup === mg
+                      ? "rgba(200,241,53,0.12)"
+                      : "rgba(255,255,255,0.05)",
+                  border:
+                    muscleGroup === mg
+                      ? `0.5px solid ${ACTIVE}`
+                      : "0.5px solid rgba(255,255,255,0.1)",
+                  color: muscleGroup === mg ? ACTIVE : "rgba(248,244,238,0.4)",
+                }}
+              >
+                {mg === "ALL"
+                  ? "All"
+                  : mg.charAt(0) + mg.slice(1).toLowerCase().replace(/_/g, " ")}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-y-auto flex-1">
+          {loading ? (
+            <div className="flex items-center justify-center h-32">
+              <div className="w-6 h-6 border-2 border-white/15 border-t-white/50 rounded-full animate-spin" />
+            </div>
+          ) : exercises.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-32 gap-2">
+              <Dumbbell className="w-8 h-8 text-white/10" />
+              <p className="text-white/25 text-sm">No exercises found</p>
+            </div>
+          ) : (
+            <div className="p-2">
+              {exercises.map((ex) => (
+                <button
+                  key={ex.id}
+                  onClick={() => onSelect(ex)}
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all hover:bg-white/[0.06] group"
+                >
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: "rgba(255,255,255,0.06)" }}
+                  >
+                    <Dumbbell className="w-4 h-4 text-white/30" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[#f8f4ee] text-sm font-medium truncate group-hover:text-white transition-colors">
+                      {ex.name}
+                    </p>
+                    <p className="text-white/30 text-[10px] mt-0.5">
+                      {ex.muscleGroup} · {ex.equipmentType} ·{" "}
+                      {ex.difficultyLevel}
+                    </p>
+                  </div>
+                  <Plus className="w-4 h-4 text-white/20 group-hover:text-white/60 flex-shrink-0 transition-colors" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -197,7 +354,7 @@ function ExerciseRow({ ex, canEdit, onUpdate, onRemove }) {
   );
 }
 
-function DaySection({ day, canEdit, planId, onDayUpdated }) {
+function DaySection({ day, canEdit, planId, onDayUpdated, onAddExercise }) {
   const [open, setOpen] = useState(true);
   const [editingName, setEditingName] = useState(false);
   const [name, setName] = useState(day.name);
@@ -356,6 +513,21 @@ function DaySection({ day, canEdit, planId, onDayUpdated }) {
               />
             ))
           )}
+
+          {canEdit && (
+            <button
+              type="button"
+              onClick={onAddExercise}
+              className="flex items-center gap-2 text-xs px-4 py-2.5 rounded-xl transition-all w-full justify-center cursor-pointer hover:opacity-90 mt-1"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "0.5px dashed rgba(255,255,255,0.12)",
+                color: "rgba(248,244,238,0.35)",
+              }}
+            >
+              <Plus className="w-3.5 h-3.5" /> Add exercise
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -372,6 +544,9 @@ export default function PlanDetails() {
   const [metaForm, setMetaForm] = useState({});
   const [savingMeta, setSavingMeta] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [pickerForDay, setPickerForDay] = useState(null);
+  const [showAddDayConfirm, setShowAddDayConfirm] = useState(false);
+  const [addingDay, setAddingDay] = useState(false);
 
   const fetchPlan = async () => {
     try {
@@ -444,6 +619,48 @@ export default function PlanDetails() {
     }
   };
 
+  const handleAddExerciseToDay = async (exercise) => {
+    const dayId = pickerForDay;
+    const day = plan.days.find((d) => d.id === dayId);
+    if (!day) return;
+    try {
+      await axiosInstance.post(`/plans/${id}/days/${dayId}/exercises`, {
+        exerciseId: exercise.id,
+        sets: 3,
+        reps: 10,
+        weightKg: 0,
+        restSeconds: 60,
+        orderIndex: (day.exercises?.length ?? 0) + 1,
+        notes: "",
+      });
+      await fetchPlan();
+      toast.success("Exercise added");
+    } catch {
+      toast.error("Failed to add exercise");
+    } finally {
+      setPickerForDay(null);
+    }
+  };
+
+  const handleAddDay = async () => {
+    setAddingDay(true);
+    const dayNumber = (plan.days?.length ?? 0) + 1;
+    try {
+      await axiosInstance.post(`/plans/${id}/days`, {
+        dayNumber,
+        name: `Day ${dayNumber}`,
+        exercises: [],
+      });
+      await fetchPlan();
+      toast.success("Day added");
+    } catch {
+      toast.error("Failed to add day");
+    } finally {
+      setAddingDay(false);
+      setShowAddDayConfirm(false);
+    }
+  };
+
   const meta = GOAL_META[plan?.goal] || {
     label: plan?.goal,
     accent: "#888",
@@ -462,7 +679,52 @@ export default function PlanDetails() {
 
   return (
     <div className="min-h-screen bg-zinc-950">
-      {/* Banner */}
+      {pickerForDay && (
+        <ExercisePickerModal
+          onSelect={handleAddExerciseToDay}
+          onClose={() => setPickerForDay(null)}
+        />
+      )}
+
+      {showAddDayConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowAddDayConfirm(false)}
+          />
+          <div
+            className="relative w-full max-w-sm rounded-2xl p-6 flex flex-col gap-4"
+            style={{
+              background: "#1c1c1e",
+              border: "0.5px solid rgba(255,255,255,0.12)",
+            }}
+          >
+            <h3 className="text-[#f8f4ee] font-semibold">Add workout day</h3>
+            <p className="text-white/40 text-sm">
+              A new day will be added as Day {(plan.days?.length ?? 0) + 1}. You
+              can rename it and add exercises after.
+            </p>
+            <div className="flex gap-3">
+              <Button
+                onClick={handleAddDay}
+                disabled={addingDay}
+                className="flex-1 cursor-pointer hover:opacity-90"
+                style={{ background: ACTIVE, color: "#1a1a1a" }}
+              >
+                {addingDay ? "Adding..." : "Add day"}
+              </Button>
+              <Button
+                onClick={() => setShowAddDayConfirm(false)}
+                variant="outline"
+                className="flex-1 border-white/15 text-white/50 bg-transparent cursor-pointer hover:bg-transparent"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="relative h-72 overflow-hidden">
         {meta.image && (
           <div
@@ -488,7 +750,7 @@ export default function PlanDetails() {
         <div className="relative z-10 h-full flex flex-col justify-between px-6 lg:px-24 max-w-5xl mx-auto pt-28 pb-8">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors w-fit"
+            className="flex items-center gap-2 text-sm text-white/35 hover:text-white/70 transition-colors w-fit cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
@@ -639,7 +901,7 @@ export default function PlanDetails() {
                 <Button
                   onClick={saveMeta}
                   disabled={savingMeta}
-                  className="flex-1 gap-2"
+                  className="flex-1 gap-2 cursor-pointer hover:opacity-90"
                   style={{ background: ACTIVE, color: "#1a1a1a" }}
                 >
                   <Save className="w-4 h-4" />
@@ -648,7 +910,7 @@ export default function PlanDetails() {
                 <Button
                   onClick={() => setEditingMeta(false)}
                   variant="outline"
-                  className="border-white/15 text-white/50 bg-transparent"
+                  className="border-white/15 text-white/50 bg-transparent cursor-pointer hover:bg-transparent"
                 >
                   Cancel
                 </Button>
@@ -713,8 +975,24 @@ export default function PlanDetails() {
                 canEdit={canEdit}
                 planId={id}
                 onDayUpdated={fetchPlan}
+                onAddExercise={() => setPickerForDay(day.id)}
               />
             ))
+          )}
+
+          {canEdit && (plan.days?.length ?? 0) < 7 && (
+            <button
+              type="button"
+              onClick={() => setShowAddDayConfirm(true)}
+              className="flex items-center justify-center gap-2 text-sm py-4 rounded-2xl transition-all cursor-pointer hover:opacity-90"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                border: "0.5px dashed rgba(255,255,255,0.1)",
+                color: "rgba(248,244,238,0.3)",
+              }}
+            >
+              <Plus className="w-4 h-4" /> Add workout day
+            </button>
           )}
         </div>
       </div>
